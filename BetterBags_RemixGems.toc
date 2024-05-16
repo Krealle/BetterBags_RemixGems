@@ -5,8 +5,8 @@
 ## Version: @project-version@
 ## X-Date: @project-date-iso@
 ## X-License: MIT
-## X-Curse-Project-ID: 1011725
-## X-Wago-ID: 4N2m4aGL
+## X-Curse-Project-ID: 1019715
+## X-Wago-ID: qKQxJ76x
 
 ## Notes: Adds categories for all the new Remix gems!
 ## Notes-ruRU: @localization(locale="ruRU")@
@@ -20,6 +20,6 @@
 ## Notes-itIT: @localization(locale="itIT")@
 ## Notes-frFR: @localization(locale="frFR")@
 
-## IconTexture: Interface\ICONS\inv_jewelry_trinket_17
+## IconTexture: Interface\ICONS\inv_misc_gem_x4_rare_cut_blue
 
 main.lua
