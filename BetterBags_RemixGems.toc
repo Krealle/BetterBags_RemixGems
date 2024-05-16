@@ -1,0 +1,25 @@
+## Interface: 100207
+
+## Title: BetterBags - Remix Gems
+## Author: Vollmer
+## Version: @project-version@
+## X-Date: @project-date-iso@
+## X-License: MIT
+## X-Curse-Project-ID: 1011725
+## X-Wago-ID: 4N2m4aGL
+
+## Notes: Adds categories for all the new Remix gems!
+## Notes-ruRU: @localization(locale="ruRU")@
+## Notes-deDE: @localization(locale="deDE")@
+## Notes-koKR: @localization(locale="koKR")@
+## Notes-esMX: @localization(locale="esMX")@
+## Notes-esES: @localization(locale="esES")@
+## Notes-ptBR: @localization(locale="ptBR")@
+## Notes-zhCN: @localization(locale="zhCN")@
+## Notes-zhTW: @localization(locale="zhTW")@
+## Notes-itIT: @localization(locale="itIT")@
+## Notes-frFR: @localization(locale="frFR")@
+
+## IconTexture: Interface\ICONS\inv_jewelry_trinket_17
+
+main.lua
