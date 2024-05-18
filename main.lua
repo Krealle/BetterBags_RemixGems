@@ -58,7 +58,7 @@ function getCategory(gem)
 
     if string.match(gemType, "Prismatic") then
         local quality = Qualities[gem.itemInfo.itemQuality]
-        return WrapTextInColorCode((CategorySuffix .. quality.name .. " gem"), quality.color)
+        return WrapTextInColorCode((CategorySuffix .. "Prismatic ".. quality.name .. " gem"), quality.color)
     end
 
     if string.match(gemType, "Tinker") then
