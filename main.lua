@@ -11,6 +11,17 @@ local L = BetterBags:GetModule('Localization')
 -------------------------------------------------------
 local C_TooltipInfo_GetItemByID = C_TooltipInfo and C_TooltipInfo.GetItemByID
 
+-- MARK: Addon Constants
+-------------------------------------------------------
+local Qualities = {
+    [Enum.ItemQuality.Uncommon] = { ["name"] = "Chipped", ["color"] = "ff1eff00" },
+    [Enum.ItemQuality.Rare] = { ["name"] = "Flawed", ["color"] = "ff0070dd" },
+    [Enum.ItemQuality.Epic] = { ["name"] = "Epic", ["color"] = "ffa335ee" },
+    [Enum.ItemQuality.Legendary] = { ["name"] = "Perfect", ["color"] = "ffff8000" },
+}
+
+local CategorySuffix = "Remix - "
+
 -- MARK: Item Category Sorting
 -------------------------------------------------------
 ---@param data ItemData
@@ -19,31 +30,44 @@ categories:RegisterCategoryFunction("RemixItemsCategoryFilter", function(data)
         return nil
     end
 
-    local lines = C_TooltipInfo_GetItemByID(data.itemInfo.itemID).lines
-    if not lines then return nil end
-
-    local gemType = lines[2] and lines[2].leftText
-    if not gemType or type(gemType) ~= "string" then return nil end
-
-    local subText = lines[3] and lines[3].leftText
-
-    local gemRank = getPlusSigns(subText)
-    if(gemRank) then
-        return L:G(gemType .. " " .. gemRank)
-    end
-
-    return L:G(gemType)
+    local category = getCategory(data)
+    if not category then return nil end
+    
+    return L:G(category)
 end)
 
----@param subText string
----@return string
-function getPlusSigns(subText)
-    if not subText or type(subText) ~= "string" then return false end
+---@param gem ItemData
+---@return string | nil
+function getGemType(gem)
+    if not gem or not gem.itemInfo or not gem.itemInfo.itemID then return nil end
 
-    if subText:sub(1, 1) == "+" then
-        local plus_signs = subText:match("^%++")
-        return plus_signs or ""
+    local tooltipLines = C_TooltipInfo_GetItemByID(gem.itemInfo.itemID).lines
+    if not tooltipLines then return nil end
+
+    local gemType = tooltipLines[2] and tooltipLines[2].leftText
+    if not gemType or type(gemType) ~= "string" then return nil end
+
+    return gemType
+end
+
+---@param gem ItemData
+---@return string | nil
+function getCategory(gem)
+    local gemType = getGemType(gem)
+    if not gemType then return nil end
+
+    if string.match(gemType, "Prismatic") then
+        local quality = Qualities[gem.itemInfo.itemQuality]
+        return WrapTextInColorCode((CategorySuffix .. quality.name .. " gem"), quality.color)
     end
-        
-    return false
+
+    if string.match(gemType, "Tinker") then
+        return WrapTextInColorCode((CategorySuffix .. "Tinker gem"), Qualities[Enum.ItemQuality.Uncommon].color)
+    end
+
+    if string.match(gemType, "Cogwheel") then
+        return WrapTextInColorCode((CategorySuffix .. "Cogwheel gem"), Qualities[Enum.ItemQuality.Rare].color)
+    end
+
+    return WrapTextInColorCode((CategorySuffix .. "Meta gem"), Qualities[Enum.ItemQuality.Epic].color)
 end
