@@ -8,6 +8,8 @@
 ## X-Curse-Project-ID: 1019715
 ## X-Wago-ID: qKQxJ76x
 
+## Dependencies: BetterBags
+
 ## Notes: Adds categories for all the new Remix gems!
 ## Notes-ruRU: @localization(locale="ruRU")@
 ## Notes-deDE: @localization(locale="deDE")@
