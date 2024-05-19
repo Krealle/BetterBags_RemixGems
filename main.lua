@@ -1,4 +1,4 @@
----@class BBGS
+---@class BBRG
 local addon = select(2, ...)
 ---@class BetterBags: AceAddon
 local BetterBags = LibStub('AceAddon-3.0'):GetAddon("BetterBags")
@@ -22,6 +22,18 @@ local Qualities = {
 
 local CategorySuffix = "Remix - "
 
+local META_GEMS = addon.META_GEMS
+local TINKER_GEMS = addon.TINKER_GEMS
+local COGWHEEL_GEMS = addon.COGWHEEL_GEMS
+
+---@enum Enum.GemType
+local GemType = {
+    Meta = "Meta",
+    Cogwheel = "Cogwheel",
+    Tinker = "Tinker",
+    Prismatic = "Prismatic"
+}
+
 -- MARK: Item Category Sorting
 -------------------------------------------------------
 ---@param data ItemData
@@ -37,17 +49,16 @@ categories:RegisterCategoryFunction("RemixItemsCategoryFilter", function(data)
 end)
 
 ---@param gem ItemData
----@return string | nil
+---@return Enum.GemType | nil
 function getGemType(gem)
     if not gem or not gem.itemInfo or not gem.itemInfo.itemID then return nil end
+    local gemID = gem.itemInfo.itemID
 
-    local tooltipLines = C_TooltipInfo_GetItemByID(gem.itemInfo.itemID).lines
-    if not tooltipLines then return nil end
+    if META_GEMS[gemID] then return GemType.Meta end
+    if TINKER_GEMS[gemID] then return GemType.Tinker end
+    if COGWHEEL_GEMS[gemID] then return GemType.Cogwheel end
 
-    local gemType = tooltipLines[2] and tooltipLines[2].leftText
-    if not gemType or type(gemType) ~= "string" then return nil end
-
-    return gemType
+    return GemType.Prismatic
 end
 
 ---@param gem ItemData
@@ -56,18 +67,18 @@ function getCategory(gem)
     local gemType = getGemType(gem)
     if not gemType then return nil end
 
-    if string.match(gemType, "Prismatic") then
-        local quality = Qualities[gem.itemInfo.itemQuality]
-        return WrapTextInColorCode((CategorySuffix .. "Prismatic ".. quality.name .. " gem"), quality.color)
+    if gemType == GemType.Meta then
+        return WrapTextInColorCode((CategorySuffix .. "Meta gem"), Qualities[Enum.ItemQuality.Epic].color)
     end
 
-    if string.match(gemType, "Tinker") then
+    if gemType == GemType.Tinker then
         return WrapTextInColorCode((CategorySuffix .. "Tinker gem"), Qualities[Enum.ItemQuality.Uncommon].color)
     end
 
-    if string.match(gemType, "Cogwheel") then
+    if gemType == GemType.Cogwheel then
         return WrapTextInColorCode((CategorySuffix .. "Cogwheel gem"), Qualities[Enum.ItemQuality.Rare].color)
     end
 
-    return WrapTextInColorCode((CategorySuffix .. "Meta gem"), Qualities[Enum.ItemQuality.Epic].color)
+    local quality = Qualities[gem.itemInfo.itemQuality]
+    return WrapTextInColorCode((CategorySuffix .. "Prismatic ".. quality.name .. " gem"), quality.color)
 end

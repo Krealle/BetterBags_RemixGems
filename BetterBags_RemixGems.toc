@@ -24,4 +24,5 @@
 
 ## IconTexture: Interface\ICONS\inv_misc_gem_x4_rare_cut_blue
 
+db.lua
 main.lua
