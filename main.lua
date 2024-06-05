@@ -20,7 +20,7 @@ local Qualities = {
     [Enum.ItemQuality.Legendary] = { ["name"] = "Perfect", ["color"] = "ffff8000" },
 }
 
-local CategorySuffix = "Remix - "
+local CategoryPrefix = "Gems: "
 
 local META_GEMS = addon.META_GEMS
 local TINKER_GEMS = addon.TINKER_GEMS
@@ -68,17 +68,17 @@ function getCategory(gem)
     if not gemType then return nil end
 
     if gemType == GemType.Meta then
-        return WrapTextInColorCode((CategorySuffix .. "Meta gem"), Qualities[Enum.ItemQuality.Epic].color)
+        return WrapTextInColorCode((CategoryPrefix .. "Meta"), Qualities[Enum.ItemQuality.Epic].color)
     end
 
     if gemType == GemType.Tinker then
-        return WrapTextInColorCode((CategorySuffix .. "Tinker gem"), Qualities[Enum.ItemQuality.Uncommon].color)
+        return WrapTextInColorCode((CategoryPrefix .. "Tinker"), Qualities[Enum.ItemQuality.Uncommon].color)
     end
 
     if gemType == GemType.Cogwheel then
-        return WrapTextInColorCode((CategorySuffix .. "Cogwheel gem"), Qualities[Enum.ItemQuality.Rare].color)
+        return WrapTextInColorCode((CategoryPrefix .. "Cogwheel"), Qualities[Enum.ItemQuality.Rare].color)
     end
 
     local quality = Qualities[gem.itemInfo.itemQuality]
-    return WrapTextInColorCode((CategorySuffix .. "Prismatic ".. quality.name .. " gem"), quality.color)
+    return WrapTextInColorCode((CategoryPrefix .. "Prismatic ".. quality.name), quality.color)
 end
